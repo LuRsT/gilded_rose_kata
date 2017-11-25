@@ -1,10 +1,7 @@
-import sys
-
 from gilded_rose import Item, GildedRose
 
 
 def main():
-    print('OMGHAI!')
     items = [
         Item(name='+5 Dexterity Vest', sell_in=10, quality=20),
         Item(name='Aged Brie', sell_in=2, quality=0),
@@ -17,12 +14,9 @@ def main():
         Item(name='Conjured Mana Cake', sell_in=3, quality=6),  # <-- :O
     ]
 
-    days = 2
-    if len(sys.argv) > 1:
-        days = int(sys.argv[1]) + 1
-
-    for day in range(days):
-        print('-------- day %s --------'.format(day))
+    days = 30
+    for day in range(days+1):
+        print('-------- day {} --------'.format(day))
         print('name, sellIn, quality')
         for item in items:
             print(item)
