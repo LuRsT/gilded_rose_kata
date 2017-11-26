@@ -1,16 +1,16 @@
-import unittest
-
 from gilded_rose import Item, GildedRose
 
 
-class GildedRoseTest(unittest.TestCase):
+class TestGildedRose:
 
     def test_foo(self):
-        items = [Item('foo', 0, 0)]
-        gilded_rose = GildedRose(items)
+        # Create item
+        item = Item('foo', 0, 0)
+        # Place it in gilded rose inn
+        gilded_rose = GildedRose([item])
+
+        # Make a day go by
         gilded_rose.update_quality()
-        self.assertEquals('fixme', items[0].name)
 
-
-if __name__ == '__main__':
-    unittest.main()
+        # Check what happens
+        assert item.name == 'fixme'
