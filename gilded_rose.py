@@ -20,15 +20,15 @@ class GildedRose:
                 item.quality += 1
 
                 if item.sell_in < 11:
-                    item.quality = item.quality + 1
+                    item.quality += 1
 
                 if item.sell_in < 6:
-                    item.quality = item.quality + 1
+                    item.quality += 1
             else:
-                item.quality = item.quality + 1
+                item.quality += 1
 
             if not is_sulfuras:
-                item.sell_in = item.sell_in - 1
+                item.sell_in -= 1
 
             if item.sell_in < 0:
                 if not is_aged_brie:
@@ -36,12 +36,15 @@ class GildedRose:
                         item.quality -= 1
                         if is_conjured:
                             item.quality -= 1
-                    else:
+                    elif not is_sulfuras:
                         item.quality = item.quality - item.quality
                 else:
                     item.quality += 1
 
-            if item.quality > 50:
+            if item.quality < 0:
+                item.quality = 0
+
+            if item.quality > 50 and not is_sulfuras:
                 item.quality = 50
 
 

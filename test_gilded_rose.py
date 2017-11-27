@@ -43,6 +43,15 @@ class TestSulfuras:
         assert item.sell_in == 4
         assert item.quality == 10
 
+    def test_sulfuras_after_expiring(self):
+        item = Item('Sulfuras, Hand of Ragnaros', -1, 10)
+        gilded_rose = GildedRose([item])
+
+        gilded_rose.update_quality()
+
+        assert item.sell_in == -1
+        assert item.quality == 10
+
 
 class TestBackstagePasses:
 
@@ -104,6 +113,16 @@ class TestGenericItem:
 
         assert item.sell_in == -1
         assert item.quality == 7
+
+    # WTF
+    def test_genericitem_after_expiring_with_quality_one(self):
+        item = Item('Generic', -1, 1)
+        gilded_rose = GildedRose([item])
+
+        gilded_rose.update_quality()
+
+        assert item.sell_in == -2
+        assert item.quality == 0
 
     def test_genericitem_after_expiring_more(self):
         item = Item('Generic', 1, 10)
