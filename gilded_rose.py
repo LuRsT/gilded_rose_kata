@@ -34,7 +34,21 @@ class GildedRose:
                         item.quality = item.quality + 1
 
 
+def item_factory(item):
+    if 'Aged Brie' in item.name:
+        return AgedBrieItem(item.name, item.sell_in, item.quality)
+    elif 'Sulfuras' in item.name:
+        return SulfurasItem(item.name, item.sell_in, item.quality)
+    elif 'Backstage passes' in item.name:
+        return BackstagePassesItem(item.name, item.sell_in, item.quality)
+    elif 'Conjured' in item.name:
+        return ConjuredItem(item.name, item.sell_in, item.quality)
+    else:
+        return DefaultItem(item.name, item.sell_in, item.quality)
+
+
 class Item:
+
     def __init__(self, name, sell_in, quality):
         self.name = name
         self.sell_in = sell_in
@@ -42,3 +56,23 @@ class Item:
 
     def __repr__(self):
         return "%s, %s, %s" % (self.name, self.sell_in, self.quality)
+
+
+class AgedBrieItem(Item):
+    pass
+
+
+class BackstagePassesItem(Item):
+    pass
+
+
+class SulfurasItem(Item):
+    pass
+
+
+class ConjuredItem(Item):
+    pass
+
+
+class DefaultItem(Item):
+    pass
