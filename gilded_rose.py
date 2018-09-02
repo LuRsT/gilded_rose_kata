@@ -5,46 +5,23 @@ class GildedRose:
 
     def update_quality(self):
         for item in self.items:
-            if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert":
-                if item.quality > 0:
-                    if item.name != "Sulfuras, Hand of Ragnaros":
-                        item.quality = item.quality - 1
-            else:
-                if item.quality < 50:
-                    item.quality = item.quality + 1
-                    if item.name == "Backstage passes to a TAFKAL80ETC concert":
-                        if item.sell_in < 11:
-                            if item.quality < 50:
-                                item.quality = item.quality + 1
-                        if item.sell_in < 6:
-                            if item.quality < 50:
-                                item.quality = item.quality + 1
-            if item.name != "Sulfuras, Hand of Ragnaros":
-                item.sell_in = item.sell_in - 1
-            if item.sell_in < 0:
-                if item.name != "Aged Brie":
-                    if item.name != "Backstage passes to a TAFKAL80ETC concert":
-                        if item.quality > 0:
-                            if item.name != "Sulfuras, Hand of Ragnaros":
-                                item.quality = item.quality - 1
-                    else:
-                        item.quality = item.quality - item.quality
-                else:
-                    if item.quality < 50:
-                        item.quality = item.quality + 1
+            item = item_factory(item)
+            item.update()
 
 
 def item_factory(item):
-    if 'Aged Brie' in item.name:
-        return AgedBrieItem(item.name, item.sell_in, item.quality)
-    elif 'Sulfuras' in item.name:
-        return SulfurasItem(item.name, item.sell_in, item.quality)
-    elif 'Backstage passes' in item.name:
-        return BackstagePassesItem(item.name, item.sell_in, item.quality)
-    elif 'Conjured' in item.name:
-        return ConjuredItem(item.name, item.sell_in, item.quality)
-    else:
-        return DefaultItem(item.name, item.sell_in, item.quality)
+    translator = {
+        'Aged Brie': AgedBrieItem,
+        'Sulfuras': SulfurasItem,
+        'Backstage passes': BackstagePassesItem,
+        'Conjured': ConjuredItem,
+    }
+
+    for type_name, class_ in translator.items():
+        if type_name in item.name:
+            return class_(item.name, item.sell_in, item.quality)
+
+    return DefaultItem(item.name, item.sell_in, item.quality)
 
 
 class Item:
@@ -59,20 +36,59 @@ class Item:
 
 
 class AgedBrieItem(Item):
-    pass
+
+    def update(self):
+        self.sell_in -= 1
+
+        if self.quality == 50:
+            return
+
+        if self.sell_in < 0:
+            self.quality += 2
+        else:
+            self.quality += 1
 
 
 class BackstagePassesItem(Item):
-    pass
+
+    def update(self):
+        if self.sell_in <= 0:
+            self.quality = 0
+        elif self.sell_in <= 5:
+            self.quality += 3
+        elif self.sell_in <= 10:
+            self.quality += 2
+
+        self.sell_in -= 1
 
 
 class SulfurasItem(Item):
-    pass
+
+    def update(self):
+        pass
 
 
 class ConjuredItem(Item):
-    pass
+
+    def update(self):
+        self.sell_in -= 1
+        self.quality -= 2
+
+        if self.sell_in < 0:
+            self.quality -= 2
+
+        if self.quality < 0:
+            self.quality = 0
 
 
 class DefaultItem(Item):
-    pass
+
+    def update(self):
+        self.sell_in -= 1
+        self.quality -= 1
+
+        if self.sell_in <= 0:
+            self.quality -= 1
+
+        if self.quality < 0:
+            self.quality = 0

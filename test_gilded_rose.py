@@ -10,28 +10,141 @@ from gilded_rose import (
 )
 
 
-class TestGildedRose:
+class TestAgedBrie:
 
-    def test_aged_brie_after_one_day(self):
-        item = Item('Aged Brie', 1, 1)
-        gilded_rose = GildedRose([item])
+    def test_after_one_day(self):
+        item = AgedBrieItem('Aged Brie', 1, 1)
 
-        gilded_rose.update_quality()
+        item.update()
 
-        assert item.name == 'Aged Brie'
         assert item.quality == 2
         assert item.sell_in == 0
 
-    def test_aged_brie_after_two_days_expired(self):
-        item = Item('Aged Brie', 1, 1)
-        gilded_rose = GildedRose([item])
+    def test_after_expired(self):
+        item = AgedBrieItem('Aged Brie', 0, 1)
 
-        gilded_rose.update_quality()
-        gilded_rose.update_quality()
+        item.update()
+        item.update()
 
-        assert item.name == 'Aged Brie'
+        assert item.quality == 5
+        assert item.sell_in == -2
+
+    def test_after_one_day_max_quality(self):
+        item = AgedBrieItem('Aged Brie', 1, 50)
+
+        item.update()
+
+        assert item.quality == 50
+        assert item.sell_in == 0
+
+
+class TestSulfuras:
+
+    def test_after_one_day(self):
+        item = SulfurasItem('Sulfuras', 1, 1)
+
+        item.update()
+
+        assert item.quality == 1
+        assert item.sell_in == 1
+
+    def test_after_expired(self):
+        item = SulfurasItem('Sulfuras', 0, 1)
+
+        item.update()
+        item.update()
+
+        item.quality == 1
+        item.sell_in == 0
+
+
+class TestBackstagePasses:
+
+    def test_after_one_day(self):
+        item = BackstagePassesItem('Pass', 1, 1)
+
+        item.update()
+
         assert item.quality == 4
+        assert item.sell_in == 0
+
+    def test_after_expired(self):
+        item = BackstagePassesItem('Pass', 0, 5)
+
+        item.update()
+
+        assert item.quality == 0
         assert item.sell_in == -1
+
+    def test_after_10_days(self):
+        item = BackstagePassesItem('Pass', 10, 1)
+
+        item.update()
+
+        assert item.quality == 3
+        assert item.sell_in == 9
+
+    def test_after_5_days(self):
+        item = BackstagePassesItem('Pass', 5, 1)
+
+        item.update()
+
+        assert item.quality == 4
+        assert item.sell_in == 4
+
+
+class TestDefaultItem:
+
+    def test_after_one_day(self):
+        item = DefaultItem('Item', 1, 1)
+
+        item.update()
+
+        assert item.quality == 0
+        assert item.sell_in == 0
+
+    def test_after_expired(self):
+        item = DefaultItem('Item', 0, 20)
+
+        item.update()
+
+        assert item.quality == 18
+        assert item.sell_in == -1
+
+    def test_with_low_quality(self):
+        item = DefaultItem('Item', 2, 0)
+
+        item.update()
+
+        assert item.quality == 0
+        assert item.sell_in == 1
+
+
+class TestConjuredItem:
+
+    def test_after_one_day(self):
+        item = ConjuredItem('Conjured', 1, 3)
+
+        item.update()
+
+        assert item.quality == 1
+        assert item.sell_in == 0
+
+    def test_after_expired(self):
+        item = ConjuredItem('Item', 0, 20)
+
+        item.update()
+
+        assert item.quality == 16
+        assert item.sell_in == -1
+
+    def test_with_low_quality(self):
+        item = ConjuredItem('Item', 2, 0)
+
+        item.update()
+
+        assert item.quality == 0
+        assert item.sell_in == 1
 
 
 class TestFactory:
