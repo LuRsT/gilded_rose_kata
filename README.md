@@ -1,24 +1,21 @@
 # Gilded Rose kata for Python 3
 
-This is basically a copy of https://github.com/emilybache/GildedRose-Refactoring-Kata
+This is a copy of https://github.com/emilybache/GildedRose-Refactoring-Kata
 except that it's just the Python one, and I changed it to be used with Python 3.
 
-I've addded some instructions for using this repo and pasted some of the README
+I've added some instructions for using this repo and pasted some of the README
 from that original repo.
 
-## How to setup:
+## Pre-requisites:
 
-Create a virtualenv with python 3.* (tested on Python3.6) and install `pytest`
+- Install `uv` if you don't have it.
 
 ## How to run:
-
-Just use the `Makefile`:
 
 - `make` to run unit tests
 - `make gold` to run golden test
 
-Alternatively, read the Makefile and execute the commands inside, it's just 4
-lines.
+Alternatively, read the Makefile and run the commands inside.
 
 ## How to kata this kata:
 

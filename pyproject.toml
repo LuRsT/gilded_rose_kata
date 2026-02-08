@@ -1,0 +1,9 @@
+[project]
+name = "gilded-rose-kata"
+version = "0.1.0"
+description = "Gilded Rose Kata - a refactoring kata"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "pytest>=9.0.2",
+]
