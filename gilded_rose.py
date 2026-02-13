@@ -45,3 +45,8 @@ class Item:
             else:
                 if self.quality < 50:
                     self.quality = self.quality + 1
+
+
+def item_builder(name, sell_in, quality):
+    return Item(name, sell_in, quality)
+
