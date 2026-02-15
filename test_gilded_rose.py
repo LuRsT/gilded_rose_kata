@@ -126,7 +126,7 @@ class TestSulfuras:
         assert item.sell_in == 0
 
         # Quality should remain
-        assert item.quality == 0
+        assert item.quality == 80
 
     def test_two_quality_updates(self):
         # Create item
@@ -142,16 +142,15 @@ class TestSulfuras:
         assert item.sell_in == 1
 
         # Quality should remain
-        assert item.quality == 10
+        assert item.quality == 80
 
         # Make another day go by
         gilded_rose.update_quality()
 
         assert item.sell_in == 1
-        assert item.quality == 10
+        assert item.quality == 80
 
 
-# Parametrise
 backstage = [
     pytest.param(
         0,
@@ -172,6 +171,30 @@ class TestBackstagePasses:
     item_name = "Backstage passes to a TAFKAL80ETC concert"
 
     @pytest.mark.parametrize("sell_in,quality,ex_sell_in,ex_quality", backstage)
+    def test_scenarios(self, sell_in, quality, ex_sell_in, ex_quality):
+        # Create item
+        item = create_item(self.item_name, sell_in, quality)
+
+        # Place it in gilded rose inn
+        gilded_rose = GildedRose([item])
+
+        # Make a day go by
+        gilded_rose.update_quality()
+
+        assert item.sell_in == ex_sell_in
+        assert item.quality == ex_quality
+
+
+conjured = [
+    pytest.param(0, 10, -1, 0, id="< zero",),
+    pytest.param(11, 10, 10, 8, id=""),
+]
+
+
+class TestConjured:
+    item_name = "Conjured soup"
+
+    @pytest.mark.parametrize("sell_in,quality,ex_sell_in,ex_quality", conjured)
     def test_scenarios(self, sell_in, quality, ex_sell_in, ex_quality):
         # Create item
         item = create_item(self.item_name, sell_in, quality)

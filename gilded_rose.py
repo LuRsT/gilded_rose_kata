@@ -21,16 +21,6 @@ class Item:
             if self.quality > 0:
                 if self.name != "Sulfuras, Hand of Ragnaros":
                     self.quality = self.quality - 1
-        else:
-            if self.quality < 50:
-                self.quality = self.quality + 1
-                if self.name == "Backstage passes to a TAFKAL80ETC concert":
-                    if self.sell_in < 11:
-                        if self.quality < 50:
-                            self.quality = self.quality + 1
-                    if self.sell_in < 6:
-                        if self.quality < 50:
-                            self.quality = self.quality + 1
         if self.name != "Sulfuras, Hand of Ragnaros":
             self.sell_in = self.sell_in - 1
         if self.sell_in < 0:
@@ -38,8 +28,6 @@ class Item:
                 if self.quality > 0:
                     if self.name != "Sulfuras, Hand of Ragnaros":
                         self.quality = self.quality - 1
-            else:
-                self.quality = self.quality - self.quality
 
 
 class AgedBrie(Item):
@@ -55,8 +43,7 @@ class AgedBrie(Item):
 
 class Sulfuras(Item):
     def update_quality(self):
-        # Nothing happens
-        pass
+        self.quality = 80
 
 class Backstage(Item):
     def update_quality(self):
@@ -74,13 +61,23 @@ class Backstage(Item):
         if self.quality > 50:
             self.quality = 50
 
+class Conjured(Item):
+    def update_quality(self):
+        self.sell_in -= 1
+        self.quality -= 2
+        if self.sell_in <= 0:
+            self.quality = 0
+
+
 def create_item(name, sell_in, quality):
     match name:
         case "Aged Brie":
             return AgedBrie(name, sell_in, quality)
-        case "Sulfuras, Hand of Ragnaros":
+        case s if s.startswith("Sulfuras"):
             return Sulfuras(name, sell_in, quality)
-        case "Backstage passes to a TAFKAL80ETC concert":
+        case s if s.startswith("Backstage passes"):
             return Backstage(name, sell_in, quality)
+        case s if s.startswith("Conjured"):
+            return Conjured(name, sell_in, quality)
         case _:
             return Item(name, sell_in, quality)
