@@ -1,5 +1,4 @@
 class GildedRose:
-
     def __init__(self, items):
         self.items = items
 
@@ -42,6 +41,7 @@ class Item:
             else:
                 self.quality = self.quality - self.quality
 
+
 class AgedBrie(Item):
     def update_quality(self):
         self.sell_in -= 1
@@ -49,11 +49,38 @@ class AgedBrie(Item):
             self.quality += 2
         else:
             self.quality += 1
+        if self.quality > 50:
+            self.quality = 50
+
+
+class Sulfuras(Item):
+    def update_quality(self):
+        # Nothing happens
+        pass
+
+class Backstage(Item):
+    def update_quality(self):
+        self.sell_in -= 1
+
+        if self.sell_in < 0:
+            self.quality = 0
+        elif self.sell_in >= 10:
+            self.quality += 1
+        elif self.sell_in < 10 and self.sell_in >= 5:
+            self.quality += 2
+        elif self.sell_in < 5:
+            self.quality += 3
+
+        if self.quality > 50:
+            self.quality = 50
 
 def create_item(name, sell_in, quality):
     match name:
         case "Aged Brie":
             return AgedBrie(name, sell_in, quality)
+        case "Sulfuras, Hand of Ragnaros":
+            return Sulfuras(name, sell_in, quality)
+        case "Backstage passes to a TAFKAL80ETC concert":
+            return Backstage(name, sell_in, quality)
         case _:
             return Item(name, sell_in, quality)
-
