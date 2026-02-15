@@ -3,3 +3,6 @@ all:
 
 gold:
 	./test_golden.sh
+
+format:
+	uv run ruff format .
