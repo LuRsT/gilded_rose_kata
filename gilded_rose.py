@@ -3,6 +3,8 @@ SULFURAS = "Sulfuras, Hand of Ragnaros"
 BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert"
 MAX_QUALITY = 50
 MIN_QUALITY = 0
+BACKSTAGE_DOUBLE_RATE_BELOW = 11
+BACKSTAGE_TRIPLE_RATE_BELOW = 6
 
 
 class GildedRose:
@@ -20,10 +22,10 @@ class GildedRose:
                 if item.quality < MAX_QUALITY:
                     item.quality = item.quality + 1
                     if item.name == BACKSTAGE_PASSES:
-                        if item.sell_in < 11:
+                        if item.sell_in < BACKSTAGE_DOUBLE_RATE_BELOW:
                             if item.quality < MAX_QUALITY:
                                 item.quality = item.quality + 1
-                        if item.sell_in < 6:
+                        if item.sell_in < BACKSTAGE_TRIPLE_RATE_BELOW:
                             if item.quality < MAX_QUALITY:
                                 item.quality = item.quality + 1
             if item.name != SULFURAS:
