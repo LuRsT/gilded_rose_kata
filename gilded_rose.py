@@ -8,22 +8,26 @@ class GildedRose(object):
     def __init__(self, items):
         self.items = items
 
+    def _increase_quality(self, item, amount=1):
+        item.quality = min(self.MAX_QUALITY, item.quality + amount)
+
+    def _decrease_quality(self, item, amount=1):
+        item.quality = max(self.MIN_QUALITY, item.quality - amount)
+
     def update_quality(self):
         for item in self.items:
             if item.name != self.AGED_BRIE and item.name != self.BACKSTAGE_PASS:
                 if item.quality > self.MIN_QUALITY:
                     if item.name != self.SULFURAS:
-                        item.quality = item.quality - 1
+                        self._decrease_quality(item)
             else:
                 if item.quality < self.MAX_QUALITY:
-                    item.quality = item.quality + 1
+                    self._increase_quality(item)
                     if item.name == self.BACKSTAGE_PASS:
                         if item.sell_in < 11:
-                            if item.quality < self.MAX_QUALITY:
-                                item.quality = item.quality + 1
+                            self._increase_quality(item)
                         if item.sell_in < 6:
-                            if item.quality < self.MAX_QUALITY:
-                                item.quality = item.quality + 1
+                            self._increase_quality(item)
             if item.name != self.SULFURAS:
                 item.sell_in = item.sell_in - 1
             if item.sell_in < 0:
@@ -31,12 +35,12 @@ class GildedRose(object):
                     if item.name != self.BACKSTAGE_PASS:
                         if item.quality > self.MIN_QUALITY:
                             if item.name != self.SULFURAS:
-                                item.quality = item.quality - 1
+                                self._decrease_quality(item)
                     else:
                         item.quality = self.MIN_QUALITY
                 else:
                     if item.quality < self.MAX_QUALITY:
-                        item.quality = item.quality + 1
+                        self._increase_quality(item)
 
 
 class Item:
