@@ -1,6 +1,4 @@
-
-
-   class GildedRose(object):
+class GildedRose(object):
     MAX_QUALITY = 50
     MIN_QUALITY = 0
     AGED_BRIE = "Aged Brie"
@@ -49,3 +47,4 @@ class Item:
 
     def __repr__(self):
         return "%s, %s, %s" % (self.name, self.sell_in, self.quality)
+
